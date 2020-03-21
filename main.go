@@ -1,17 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"os"
+	"net/http"
+
 	"github.com/lordbobcup/wallet-api/config"
 )
 
 func main() {
-	config, err := config.New()
-	if err != nil {
-		log.Fatal("Error during configuration. Application closing.")
-		os.Exit(1)
-	}
+	config := config.New()
+
+	fmt.Print(config.Collection);
 	
 	router := Routes(config) //
 	fmt.Println("Starting webserver...")

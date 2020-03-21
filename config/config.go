@@ -1,22 +1,32 @@
 package config
 
 import (
-	"github.com/nanobox-io/golang-scribble"
 	"log"
+	"os"
+
+	scribble "github.com/nanobox-io/golang-scribble"
 )
 
 type DatabaseConfig struct {
 	DB 	*scribble.Driver //Database
-	collection string
+	Collection string
 }
 
-var dbLocation string = "db.json"
 
 func New() (*DatabaseConfig) {
 	db := DatabaseConfig{}
 
-	db.DB, err := scribble.New(dbLocation, nil)
-	db.collection = "cards"
+	dbLocation, err := os.Getwd() 
+	if err != nil {
+		log.Fatal("Unable to get current working directory")
+	}
+	log.Print(dbLocation)
+	dbLocation = "C:\\Users\\alex.massey\\go\\src\\github.com\\lordbobcup\\wallet-api\\db"
+
+	log.Print(os.Getwd())
+	temp, err := scribble.New(dbLocation, nil)
+	db.Collection = "cards"
+	db.DB = temp
 
 	if err != nil {
 		log.Fatalf("Unable to open Database. error: %v", err)
