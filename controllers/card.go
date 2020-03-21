@@ -63,3 +63,22 @@ func GetCard(w http.ResponseWriter, r *http.Request, config *config.DatabaseConf
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&card)
 }
+
+func RemoveCard(w http.ResponseWriter, r *http.Request, config *config.DatabaseConfig) {
+	w.Header().Set("content-type", "application/json")
+
+	params := mux.Vars(r)
+	id, _ := params["id"]
+
+	card := models.Card{}
+
+	errors := config.DB.Delete(config.Collection, id)
+	if errors != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{ "message": "` + errors.Error() + `" }`))
+		return 
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(&card)
+}

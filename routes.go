@@ -13,7 +13,8 @@ func Routes(config *config.DatabaseConfig) *mux.Router {
 	// Open Authentication Routes
 	router.HandleFunc("/cards", func(w http.ResponseWriter, r *http.Request) {controllers.NewCard(w,r,config)}).Methods("POST")
 	router.HandleFunc("/cards", func(w http.ResponseWriter, r *http.Request) {controllers.GetCards(w,r,config)}).Methods("GET")
-	router.HandleFunc("/card/{id}", func(w http.ResponseWriter, r *http.Request) {controllers.GetCards(w,r,config)}).Methods("GET")
+	router.HandleFunc("/card/{id}", func(w http.ResponseWriter, r *http.Request) {controllers.GetCard(w,r,config)}).Methods("GET")
+	router.HandleFunc("/card/{id}", func(w http.ResponseWriter, r *http.Request) {controllers.RemoveCard(w,r,config)}).Methods("DELETE")
 	
 	return router
 }
